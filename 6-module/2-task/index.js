@@ -22,19 +22,16 @@ class Carousel {
 
   constructor(element) {
     this.el = element;
-
-    this.el.append(this.createMainDiv());
-
+    let mainDiv = this.createMainDiv();
+    this.el.append(mainDiv);
     // Отображение текущего слайда
     let slideDiv = document.createElement('div');
     slideDiv.className = 'carousel-inner';
     slideDiv.append(this.createSlide(this.slides[this.currentSlide]))
-    this.el.append(slideDiv);
-
+    mainDiv.append(slideDiv);
     // Кнопки
-    this.el.append(this.createPrevButton());
-    this.el.append(this.createNextButton());
-
+    mainDiv.append(this.createPrevButton());
+    mainDiv.append(this.createNextButton());
   }
 
   createMainDiv() {
