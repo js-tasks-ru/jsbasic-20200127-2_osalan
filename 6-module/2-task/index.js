@@ -56,7 +56,7 @@ class Carousel {
 
   createSlideByIndex(index) {
     let slide = this.slides[index];
-    let slideDiv = document.getElementById('slideDiv');
+    let slideDiv = this.el.querySelector('#slideDiv');
     slideDiv.innerHTML = '';
     slideDiv.append(this.createSlide(slide));
   }
@@ -138,9 +138,13 @@ class Carousel {
 
   onClick(event) {
     console.log(event.target);
-    if (event.target.dataset.slide === 'next') {
+    let target = event.target;
+    if (!(target instanceof HTMLButtonElement)) {
+      target = target.closest('button');
+    }
+    if (target.dataset.slide === 'next') {
       this.createSlideByIndex(this.getSlideIndex(1));
-    } else if (event.target.dataset.slide === 'prev') {
+    } else if (target.dataset.slide === 'prev') {
       this.createSlideByIndex(this.getSlideIndex(-1));
     }
   }
@@ -149,8 +153,11 @@ class Carousel {
     let target = event.target;
     console.log(target);
     if (target instanceof HTMLLIElement) {
-      // const li = target.closest('li');
       this.createSlideByIndex(target.dataset.slideTo);
+      for (let li of target.parentElement.children) {
+        li.classList.remove('active');
+      }
+      target.classList.add('active');
     }
   }
 }
