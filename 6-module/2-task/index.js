@@ -27,6 +27,7 @@ class Carousel {
     // Отображение текущего слайда
     let slideDiv = document.createElement('div');
     slideDiv.className = 'carousel-inner';
+    slideDiv.id = 'slideDiv';
     slideDiv.append(this.createSlide(this.slides[this.currentSlide]))
     mainDiv.append(slideDiv);
     // Кнопки
@@ -48,8 +49,16 @@ class Carousel {
       li.dataset.target = '#mainCarousel';
       ol.append(li);
     }
+    ol.addEventListener('click', (event) => this.onOlClick(event));
     mainDiv.append(ol);
     return mainDiv;
+  }
+
+  createSlideByIndex(index) {
+    let slide = this.slides[index];
+    let slideDiv = document.getElementById('slideDiv');
+    slideDiv.innerHTML = '';
+    slideDiv.append(this.createSlide(slide));
   }
 
   createSlide(slide) {
@@ -96,6 +105,7 @@ class Carousel {
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
         <span class="sr-only">Previous</span>
     `;
+    prevButton.addEventListener('click', (event) => this.onClick(event));
     return prevButton;
   }
 
@@ -109,7 +119,39 @@ class Carousel {
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
         <span class="sr-only">Next</span>
     `;
+    nextButton.addEventListener('click', (event) => this.onClick(event));
     return nextButton;
+  }
+
+  getSlideIndex(increment) {
+    let index = this.currentSlide + increment;
+    console.log('Before ' + index);
+    if (index >= this.slides.length) {
+      index = 0;
+    } else if (index < 0) {
+      index = this.slides.length - 1;
+    }
+    console.log('After ' + index);
+    this.currentSlide = index;
+    return index;
+  }
+
+  onClick(event) {
+    console.log(event.target);
+    if (event.target.dataset.slide === 'next') {
+      this.createSlideByIndex(this.getSlideIndex(1));
+    } else if (event.target.dataset.slide === 'prev') {
+      this.createSlideByIndex(this.getSlideIndex(-1));
+    }
+  }
+
+  onOlClick(event) {
+    let target = event.target;
+    console.log(target);
+    if (target instanceof HTMLLIElement) {
+      // const li = target.closest('li');
+      this.createSlideByIndex(target.dataset.slideTo);
+    }
   }
 }
 
