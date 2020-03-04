@@ -28,11 +28,12 @@ class Carousel {
     let slideDiv = document.createElement('div');
     slideDiv.className = 'carousel-inner';
     slideDiv.id = 'slideDiv';
-    slideDiv.append(this.createSlide(this.slides[this.currentSlide]))
+    // slideDiv.append(this.createSlide(this.slides[this.currentSlide]))
     mainDiv.append(slideDiv);
     // Кнопки
     mainDiv.append(this.createPrevButton());
     mainDiv.append(this.createNextButton());
+    this.createSlideByIndex(this.currentSlide);
   }
 
   createMainDiv() {
@@ -59,6 +60,15 @@ class Carousel {
     let slideDiv = this.el.querySelector('#slideDiv');
     slideDiv.innerHTML = '';
     slideDiv.append(this.createSlide(slide));
+    let indicators = this.el.querySelectorAll('.carousel-indicator');
+    for (let li of indicators) {
+      console.log("activeIndex", li, index);
+      if (li.dataset.slideTo == index) {
+        li.classList.add('active');
+      } else {
+        li.classList.remove('active');
+      }
+    }
   }
 
   createSlide(slide) {
@@ -154,10 +164,10 @@ class Carousel {
     console.log(target);
     if (target instanceof HTMLLIElement) {
       this.createSlideByIndex(target.dataset.slideTo);
-      for (let li of target.parentElement.children) {
-        li.classList.remove('active');
-      }
-      target.classList.add('active');
+      // for (let li of target.parentElement.children) {
+      //   li.classList.remove('active');
+      // }
+      // target.classList.add('active');
     }
   }
 }

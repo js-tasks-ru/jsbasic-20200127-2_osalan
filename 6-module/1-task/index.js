@@ -60,11 +60,11 @@ class ClearedTable {
    * @param {number} id - идентификатор удаляемого пользователя
    */
   onRemoved(id) {
-    for (let item of this.data) {
-      if (item.id === id) {
-        item.remove();
-      }
-    }
+    // for (let item of this.data) {
+    //   if (item.id === id) {
+    //     item.remove();
+    //   }
+    // }
       console.log(`Из таблицы удален пользователь ${id}`);
     }
 }
