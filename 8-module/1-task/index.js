@@ -67,14 +67,15 @@ class ProductList {
       return;
     }
     let cardDiv = event.target.closest('.products-list-product');
+    let selectedProduct = this.allProducts.get(parseInt(cardDiv.dataset.id));
     this.selectedProducts.add(this.allProducts.get(parseInt(cardDiv.dataset.id)));
-    localStorage.setItem(this.productsStoreKey, Array.from(this.selectedProducts).join(','));
-    for(let key in localStorage) {
-      if (!localStorage.hasOwnProperty(key)) {
-        continue; // пропустит такие ключи, как "setItem", "getItem" и так далее
-      }
-      console.log(`${key}: ${localStorage.getItem(key)}`);
-    }
+    localStorage.setItem(this.productsStoreKey, JSON.stringify(Array.from(this.selectedProducts)));
+    // for(let key in localStorage) {
+    //   if (!localStorage.hasOwnProperty(key)) {
+    //     continue; // пропустит такие ключи, как "setItem", "getItem" и так далее
+    //   }
+    //   console.log(`${key}: ${localStorage.getItem(key)}`);
+    // }
   }
 
   template = `
